@@ -33,6 +33,7 @@ public class JfxSvgRenderer {
             switch (event) {
                 case XMLStreamConstants.START_ELEMENT:
                     String localName = reader.getLocalName();
+                    System.err.println(localName);
                     switch (localName) {
                         case "g":
                             group = new Group();

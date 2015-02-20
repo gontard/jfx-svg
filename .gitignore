@@ -1,0 +1,5 @@
+.DS_Store
+# Ignore target at the top level
+/target/
+# Ignore child project's targets as well
+/*/target/

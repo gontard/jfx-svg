@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.shape.*?>
+
+
+<SVGPath content="M 100 100 L 300 100 L 200 300 z" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" />
