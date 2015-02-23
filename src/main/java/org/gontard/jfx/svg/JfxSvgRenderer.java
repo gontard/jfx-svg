@@ -2,6 +2,8 @@ package org.gontard.jfx.svg;
 
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 import javafx.scene.Group;
@@ -25,16 +27,19 @@ public class JfxSvgRenderer {
         XMLInputFactory factory = XMLInputFactory.newInstance();
         XMLStreamReader reader = factory.createXMLStreamReader(svgStream);
         Node root = null;
-        Group group = null;
+        Deque<Group> groups = new LinkedList<>();
         while (reader.hasNext()) {
             int event = reader.next();
-
             switch (event) {
+                case XMLStreamConstants.END_ELEMENT:
+                    if ("g".equals(reader.getLocalName())) {
+                        groups.pop();
+                    }
+                    break;
                 case XMLStreamConstants.START_ELEMENT:
-                    String localName = reader.getLocalName();
                     Node node = null;
                     Group newGroup = null;
-                    switch (localName) {
+                    switch (reader.getLocalName()) {
                         case "g":
                             newGroup = new Group();
                             node = newGroup;
@@ -95,11 +100,11 @@ public class JfxSvgRenderer {
                         if (root == null) {
                             root = node;
                         }
-                        if (group != null) {
-                            group.getChildren().add(node);
+                        if (!groups.isEmpty()) {
+                            groups.peek().getChildren().add(node);
                         }
                         if (newGroup != null) {
-                            group = newGroup;
+                            groups.push(newGroup);
                         }
                     }
             }

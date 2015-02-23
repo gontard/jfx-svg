@@ -72,7 +72,7 @@ public class MainEqualityTester implements NodeEqualityTester<Node> {
     private String toString(Node node) {
         StringBuilder builder = new StringBuilder();
         toString(node, 0, builder);
-        return builder.toString();
+        return builder.toString().replaceAll("@\\w+", "");
     }
 
     private void toString(Node node, int deep, StringBuilder builder) {
