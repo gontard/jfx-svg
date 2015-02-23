@@ -8,6 +8,8 @@ import java.util.StringTokenizer;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
@@ -44,16 +46,6 @@ public class JfxSvgRenderer {
                             newGroup = new Group();
                             node = newGroup;
                             break;
-                        case "rect":
-                            Rectangle rectangle = new Rectangle();
-                            rectangle.setX(doubleAttr(reader, "x"));
-                            rectangle.setY(doubleAttr(reader, "y"));
-                            rectangle.setWidth(doubleAttr(reader, "width"));
-                            rectangle.setHeight(doubleAttr(reader, "height"));
-                            rectangle.setArcWidth(doubleAttr(reader, "rx"));
-                            rectangle.setArcHeight(doubleAttr(reader, "ry"));
-                            node = rectangle;
-                            break;
                         case "circle":
                             Circle circle = new Circle();
                             circle.setCenterX(doubleAttr(reader, "cx"));
@@ -68,6 +60,16 @@ public class JfxSvgRenderer {
                             ellipse.setRadiusX(doubleAttr(reader, "rx"));
                             ellipse.setRadiusY(doubleAttr(reader, "ry"));
                             node = ellipse;
+                            break;
+                        case "image":
+                            String url = attr(reader, "href");
+                            ImageView imageView = new ImageView(new Image(url));
+                            imageView.setPreserveRatio(booleanAttr(reader, "preserveAspectRatio", true));
+                            imageView.setX(doubleAttr(reader, "x"));
+                            imageView.setY(doubleAttr(reader, "y"));
+                            imageView.setFitWidth(doubleAttr(reader, "width"));
+                            imageView.setFitHeight(doubleAttr(reader, "height"));
+                            node = imageView;
                             break;
                         case "line":
                             Line line = new Line();
@@ -91,6 +93,16 @@ public class JfxSvgRenderer {
                             SVGPath path = new SVGPath();
                             path.setContent(attr(reader, "d"));
                             node = path;
+                            break;
+                        case "rect":
+                            Rectangle rectangle = new Rectangle();
+                            rectangle.setX(doubleAttr(reader, "x"));
+                            rectangle.setY(doubleAttr(reader, "y"));
+                            rectangle.setWidth(doubleAttr(reader, "width"));
+                            rectangle.setHeight(doubleAttr(reader, "height"));
+                            rectangle.setArcWidth(doubleAttr(reader, "rx"));
+                            rectangle.setArcHeight(doubleAttr(reader, "ry"));
+                            node = rectangle;
                             break;
 
                         default:
@@ -133,6 +145,11 @@ public class JfxSvgRenderer {
     private double doubleAttr(XMLStreamReader reader, String name, double def) {
         String attributeValue = attr(reader, name);
         return attributeValue == null ? def : Double.valueOf(attributeValue);
+    }
+
+    private boolean booleanAttr(XMLStreamReader reader, String name, boolean def) {
+        String attributeValue = attr(reader, name);
+        return attributeValue == null ? def : Boolean.valueOf(attributeValue);
     }
 
     private String attr(XMLStreamReader reader, String name) {

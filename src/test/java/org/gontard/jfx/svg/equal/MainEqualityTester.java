@@ -1,9 +1,3 @@
-/*
- * Created on 20 févr. 2015
- * @author intactile
- * Owner : Intactile Design
- * All rights reserved
- */
 package org.gontard.jfx.svg.equal;
 
 import static org.junit.Assert.assertNotNull;
@@ -15,6 +9,7 @@ import java.util.Map;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
@@ -25,42 +20,28 @@ import javafx.scene.shape.SVGPath;
 import junit.framework.ComparisonFailure;
 
 public class MainEqualityTester implements NodeEqualityTester<Node> {
-    // Constants .............................................................................................
-
-    // Class fields ..........................................................................................
-
-    // Class methods .........................................................................................
-
-    // Instance fields .......................................................................................
     private final Map<Class<?>, NodeEqualityTester<?>> testers = new HashMap<Class<?>, NodeEqualityTester<?>>();
 
-    // Constructors ..........................................................................................
     public MainEqualityTester() {
         testers.put(Node.class, new FailingTester());
         testers.put(Parent.class, new ParentEqualityTester(this));
-        testers.put(Rectangle.class, new RectangleEqualityTester());
         testers.put(Circle.class, new CircleEqualityTester());
         testers.put(Ellipse.class, new EllipseEqualityTester());
+        testers.put(ImageView.class, new ImageViewEqualityTester());
         testers.put(Line.class, new LineEqualityTester());
         testers.put(Polygon.class, new PolygonEqualityTester());
         testers.put(Polyline.class, new PolylineEqualityTester());
+        testers.put(Rectangle.class, new RectangleEqualityTester());
         testers.put(SVGPath.class, new SVGPathEqualityTester());
     }
 
-    // Getters / Setters .....................................................................................
-
-    // Interface implementations .............................................................................
-
-    // Abstract methods implementations ......................................................................
-
-    // Methods ...............................................................................................
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void assertEqual(Node expected, Node found) {
         NodeEqualityTester tester = getTester(expected);
+        assertNotNull("expected is null", expected);
+        assertNotNull("found is null", found);
         try {
-            assertNotNull("expected is null", expected);
-            assertNotNull("found is null", found);
             assertSame("wrong class", expected.getClass(), found.getClass());
             tester.assertEqual(expected, found);
         }
@@ -96,7 +77,6 @@ public class MainEqualityTester implements NodeEqualityTester<Node> {
         return tester;
     }
 
-    // Inner classes .........................................................................................
     private static class FailingTester implements NodeEqualityTester<Node> {
         @Override
         public void assertEqual(Node expected, Node found) {

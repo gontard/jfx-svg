@@ -15,13 +15,6 @@ class ParentEqualityTester implements NodeEqualityTester<Parent> {
         this.childTester = childTester;
     }
 
-    // Getters / Setters .....................................................................................
-
-    // Interface implementations .............................................................................
-
-    // Abstract methods implementations ......................................................................
-
-    // Methods ...............................................................................................
     @Override
     public void assertEqual(Parent expected, Parent found) {
         ObservableList<Node> children1 = expected.getChildrenUnmodifiable();
@@ -37,5 +30,4 @@ class ParentEqualityTester implements NodeEqualityTester<Parent> {
             childTester.assertEqual(child1, child2);
         }
     }
-    // Inner classes .........................................................................................
 }

@@ -14,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
 import org.gontard.jfx.svg.equal.MainEqualityTester;
+import org.gontard.jfx.svg.util.JavaFXThreadingRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -38,6 +40,9 @@ public class JfxSvgRendererTest {
     private final Path testedSvg;
     private final Path expectedFxml;
     private final MainEqualityTester mainEqualityTester = new MainEqualityTester();
+
+    @Rule
+    public JavaFXThreadingRule runInJfxThread = new JavaFXThreadingRule();
 
     public JfxSvgRendererTest(String svgName) throws Exception {
         Path fixturesPath = fixturesPath();
