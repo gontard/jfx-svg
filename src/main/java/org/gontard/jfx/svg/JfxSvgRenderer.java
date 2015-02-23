@@ -1,29 +1,46 @@
 package org.gontard.jfx.svg;
 
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.Map;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Polyline;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.SVGPath;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.gontard.jfx.svg.factories.CircleFactory;
+import org.gontard.jfx.svg.factories.EllipseFactory;
+import org.gontard.jfx.svg.factories.Factory;
+import org.gontard.jfx.svg.factories.ImageFactory;
+import org.gontard.jfx.svg.factories.LineFactory;
+import org.gontard.jfx.svg.factories.PathFactory;
+import org.gontard.jfx.svg.factories.PolygonFactory;
+import org.gontard.jfx.svg.factories.PolylineFactory;
+import org.gontard.jfx.svg.factories.RectangleFactory;
+import org.gontard.jfx.svg.factories.XmlElement;
+
 public class JfxSvgRenderer {
+    private final Map<String, Factory> factoryRegistry = new HashMap<String, Factory>();
+    public JfxSvgRenderer() {
+        factoryRegistry.put("circle", new CircleFactory());
+        factoryRegistry.put("ellipse", new EllipseFactory());
+        factoryRegistry.put("image", new ImageFactory());
+        factoryRegistry.put("line", new LineFactory());
+        factoryRegistry.put("polyline", new PolylineFactory());
+        factoryRegistry.put("polygon", new PolygonFactory());
+        factoryRegistry.put("path", new PathFactory());
+        factoryRegistry.put("rect", new RectangleFactory());
+    }
+
+    private Factory getFactory(String name) {
+        return factoryRegistry.getOrDefault(name, (el) -> { throw new NotSupportedException(name); });
+    }
 
     public Node load(InputStream svgStream) throws XMLStreamException {
         XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -41,72 +58,13 @@ public class JfxSvgRenderer {
                 case XMLStreamConstants.START_ELEMENT:
                     Node node = null;
                     Group newGroup = null;
-                    switch (reader.getLocalName()) {
-                        case "g":
-                            newGroup = new Group();
-                            node = newGroup;
-                            break;
-                        case "circle":
-                            Circle circle = new Circle();
-                            circle.setCenterX(doubleAttr(reader, "cx"));
-                            circle.setCenterY(doubleAttr(reader, "cy"));
-                            circle.setRadius(doubleAttr(reader, "r"));
-                            node = circle;
-                            break;
-                        case "ellipse":
-                            Ellipse ellipse = new Ellipse();
-                            ellipse.setCenterX(doubleAttr(reader, "cx"));
-                            ellipse.setCenterY(doubleAttr(reader, "cy"));
-                            ellipse.setRadiusX(doubleAttr(reader, "rx"));
-                            ellipse.setRadiusY(doubleAttr(reader, "ry"));
-                            node = ellipse;
-                            break;
-                        case "image":
-                            String url = attr(reader, "href");
-                            ImageView imageView = new ImageView(new Image(url));
-                            imageView.setPreserveRatio(booleanAttr(reader, "preserveAspectRatio", true));
-                            imageView.setX(doubleAttr(reader, "x"));
-                            imageView.setY(doubleAttr(reader, "y"));
-                            imageView.setFitWidth(doubleAttr(reader, "width"));
-                            imageView.setFitHeight(doubleAttr(reader, "height"));
-                            node = imageView;
-                            break;
-                        case "line":
-                            Line line = new Line();
-                            line.setStartX(doubleAttr(reader, "x1"));
-                            line.setStartY(doubleAttr(reader, "y1"));
-                            line.setEndX(doubleAttr(reader, "x2"));
-                            line.setEndY(doubleAttr(reader, "y2"));
-                            node = line;
-                            break;
-                        case "polyline":
-                            Polyline polyline = new Polyline();
-                            readPoints(reader, polyline.getPoints());
-                            node = polyline;
-                            break;
-                        case "polygon":
-                            Polygon polygon = new Polygon();
-                            readPoints(reader, polygon.getPoints());
-                            node = polygon;
-                            break;
-                        case "path":
-                            SVGPath path = new SVGPath();
-                            path.setContent(attr(reader, "d"));
-                            node = path;
-                            break;
-                        case "rect":
-                            Rectangle rectangle = new Rectangle();
-                            rectangle.setX(doubleAttr(reader, "x"));
-                            rectangle.setY(doubleAttr(reader, "y"));
-                            rectangle.setWidth(doubleAttr(reader, "width"));
-                            rectangle.setHeight(doubleAttr(reader, "height"));
-                            rectangle.setArcWidth(doubleAttr(reader, "rx"));
-                            rectangle.setArcHeight(doubleAttr(reader, "ry"));
-                            node = rectangle;
-                            break;
-
-                        default:
-                            break;
+                    String localName = reader.getLocalName();
+                    if ("g".equals(localName)) {
+                        newGroup = new Group();
+                        node = newGroup;
+                    }
+                    else if (!"svg".equals(localName)){
+                        node = getFactory(localName).create(new StaXmlElement(reader));
                     }
                     if (node != null) {
                         if (root == null) {
@@ -124,36 +82,23 @@ public class JfxSvgRenderer {
         return root;
     }
 
-    private void readPoints(XMLStreamReader reader, Collection<Double> points) {
-        String pointsValue = attr(reader, "points");
-        parsePoints(pointsValue, points);
-    }
-
-    private void parsePoints(String pointsValue, Collection<Double> points) {
-        StringTokenizer tokenizer = new StringTokenizer(pointsValue);
-        while (tokenizer.hasMoreTokens()) {
-            String[] coordinates = tokenizer.nextToken().split(",");
-            points.add(Double.valueOf(coordinates[0]));
-            points.add(Double.valueOf(coordinates[1]));
+    public static class NotSupportedException extends RuntimeException {
+        private NotSupportedException(String element) {
+            super(element + " is not supported");
         }
     }
 
-    private double doubleAttr(XMLStreamReader reader, String name) {
-        return doubleAttr(reader, name, 0);
-    }
+    private static class StaXmlElement implements XmlElement {
+        private final XMLStreamReader reader;
 
-    private double doubleAttr(XMLStreamReader reader, String name, double def) {
-        String attributeValue = attr(reader, name);
-        return attributeValue == null ? def : Double.valueOf(attributeValue);
-    }
+        private StaXmlElement(XMLStreamReader reader) {
+            this.reader = reader;
+        }
 
-    private boolean booleanAttr(XMLStreamReader reader, String name, boolean def) {
-        String attributeValue = attr(reader, name);
-        return attributeValue == null ? def : Boolean.valueOf(attributeValue);
-    }
-
-    private String attr(XMLStreamReader reader, String name) {
-        return reader.getAttributeValue(null, name);
+        @Override
+        public String getString(String name) {
+            return reader.getAttributeValue(null, name);
+        }
     }
 
 }
