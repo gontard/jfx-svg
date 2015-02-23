@@ -22,6 +22,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
+import junit.framework.ComparisonFailure;
 
 public class MainEqualityTester implements NodeEqualityTester<Node> {
     // Constants .............................................................................................
@@ -56,11 +57,33 @@ public class MainEqualityTester implements NodeEqualityTester<Node> {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void assertEqual(Node expected, Node found) {
-        assertNotNull("expected is null", expected);
-        assertNotNull("found is null", found);
-        assertSame("wrong class", expected.getClass(), found.getClass());
         NodeEqualityTester tester = getTester(expected);
-        tester.assertEqual(expected, found);
+        try {
+            assertNotNull("expected is null", expected);
+            assertNotNull("found is null", found);
+            assertSame("wrong class", expected.getClass(), found.getClass());
+            tester.assertEqual(expected, found);
+        }
+        catch (AssertionError e) {
+            throw new ComparisonFailure(e.getMessage(), toString(expected), toString(found));
+        }
+    }
+
+    private String toString(Node node) {
+        StringBuilder builder = new StringBuilder();
+        toString(node, 0, builder);
+        return builder.toString();
+    }
+
+    private void toString(Node node, int deep, StringBuilder builder) {
+        for (int i = 0; i < deep; i++) {
+            builder.append("  ");
+        }
+        builder.append(node.toString());
+        builder.append("\n");
+        if (node instanceof Parent) {
+            ((Parent)node).getChildrenUnmodifiable().forEach(child -> toString(child, deep + 1, builder));
+        }
     }
 
     private NodeEqualityTester<?> getTester(Node expected) {

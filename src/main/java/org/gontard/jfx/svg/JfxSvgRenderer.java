@@ -25,7 +25,6 @@ public class JfxSvgRenderer {
         XMLInputFactory factory = XMLInputFactory.newInstance();
         XMLStreamReader reader = factory.createXMLStreamReader(svgStream);
         Node root = null;
-        Node node = null;
         Group group = null;
         while (reader.hasNext()) {
             int event = reader.next();
@@ -33,11 +32,12 @@ public class JfxSvgRenderer {
             switch (event) {
                 case XMLStreamConstants.START_ELEMENT:
                     String localName = reader.getLocalName();
-                    System.err.println(localName);
+                    Node node = null;
+                    Group newGroup = null;
                     switch (localName) {
                         case "g":
-                            group = new Group();
-                            node = group;
+                            newGroup = new Group();
+                            node = newGroup;
                             break;
                         case "rect":
                             Rectangle rectangle = new Rectangle();
@@ -91,11 +91,16 @@ public class JfxSvgRenderer {
                         default:
                             break;
                     }
-                    if (node != null && group != null && group != node) {
-                        group.getChildren().add(node);
-                    }
-                    if (root == null) {
-                        root = node;
+                    if (node != null) {
+                        if (root == null) {
+                            root = node;
+                        }
+                        if (group != null) {
+                            group.getChildren().add(node);
+                        }
+                        if (newGroup != null) {
+                            group = newGroup;
+                        }
                     }
             }
         }
