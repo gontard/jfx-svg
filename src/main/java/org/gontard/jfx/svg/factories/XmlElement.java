@@ -1,9 +1,3 @@
-/*
- * Created on 23 févr. 2015
- * @author intactile
- * Owner : Intactile Design
- * All rights reserved
- */
 package org.gontard.jfx.svg.factories;
 
 import static java.lang.Double.parseDouble;
