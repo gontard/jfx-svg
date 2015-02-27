@@ -34,7 +34,7 @@ public class JfxSvgRenderer {
         factoryRegistry.put("ellipse", new EllipseFactory(paintFactory));
         factoryRegistry.put("image", new ImageFactory());
         factoryRegistry.put("line", new LineFactory(paintFactory));
-        factoryRegistry.put("polyline", new PolylineFactory());
+        factoryRegistry.put("polyline", new PolylineFactory(paintFactory));
         factoryRegistry.put("polygon", new PolygonFactory(paintFactory));
         factoryRegistry.put("path", new PathFactory(paintFactory));
         factoryRegistry.put("rect", new RectangleFactory());
