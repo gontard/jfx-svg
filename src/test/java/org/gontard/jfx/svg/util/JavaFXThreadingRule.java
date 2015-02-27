@@ -83,6 +83,7 @@ public class JavaFXThreadingRule implements TestRule {
         }
 
         private void setupJavaFX() throws InterruptedException {
+            new MonocleInitializer().initMonocle();
             final CountDownLatch latch = new CountDownLatch(1);
 
             SwingUtilities.invokeLater(() -> {

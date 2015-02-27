@@ -1,12 +1,12 @@
 package org.gontard.jfx.svg.factories;
 
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ImageFactory implements Factory {
+
     @Override
-    public Node create(XmlElement el) {
+    public ImageView create(XmlElement el) {
         String url = el.getString("href");
         ImageView imageView = new ImageView(new Image(url));
         imageView.setPreserveRatio(el.getBoolean("preserveAspectRatio", true));
@@ -16,4 +16,5 @@ public class ImageFactory implements Factory {
         imageView.setFitHeight(el.getDouble("height"));
         return imageView;
     }
+
 }
