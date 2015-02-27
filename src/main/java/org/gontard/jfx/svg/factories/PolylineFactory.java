@@ -16,7 +16,7 @@ public class PolylineFactory implements Factory {
     }
 
     static void readPoints(XmlElement el, Collection<Double> points) {
-        String pointsValue = el.getString("points");
+        String pointsValue = el.getString("points", "");
         parsePoints(pointsValue, points);
     }
 
