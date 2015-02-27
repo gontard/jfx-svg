@@ -16,7 +16,7 @@ public class PolygonFactoryTest extends ShapeFactoryTest {
         return new PolygonFactory(paintFactory);
     }
 
-    private Polygon createPath(XmlElement el) {
+    private Polygon createPolygon(XmlElement el) {
         return (Polygon) createShape(el);
     }
 
@@ -27,7 +27,7 @@ public class PolygonFactoryTest extends ShapeFactoryTest {
         XmlElement el = xmlElement().withAttribute("points", content).build();
 
         // [When]
-        Polygon polygon = createPath(el);
+        Polygon polygon = createPolygon(el);
 
         // [Then]
         assertEquals("wrong points", Arrays.asList(60.31, -20.3, 100d, 40d, 100d, 80d), polygon.getPoints());
