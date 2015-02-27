@@ -19,6 +19,7 @@ import org.gontard.jfx.svg.factories.EllipseFactory;
 import org.gontard.jfx.svg.factories.Factory;
 import org.gontard.jfx.svg.factories.ImageFactory;
 import org.gontard.jfx.svg.factories.LineFactory;
+import org.gontard.jfx.svg.factories.PaintFactory;
 import org.gontard.jfx.svg.factories.PathFactory;
 import org.gontard.jfx.svg.factories.PolygonFactory;
 import org.gontard.jfx.svg.factories.PolylineFactory;
@@ -28,7 +29,8 @@ import org.gontard.jfx.svg.factories.XmlElement;
 public class JfxSvgRenderer {
     private final Map<String, Factory> factoryRegistry = new HashMap<String, Factory>();
     public JfxSvgRenderer() {
-        factoryRegistry.put("circle", new CircleFactory());
+        PaintFactory paintFactory = new PaintFactory();
+        factoryRegistry.put("circle", new CircleFactory(paintFactory));
         factoryRegistry.put("ellipse", new EllipseFactory());
         factoryRegistry.put("image", new ImageFactory());
         factoryRegistry.put("line", new LineFactory());
