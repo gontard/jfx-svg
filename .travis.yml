@@ -3,5 +3,7 @@ jdk:
   - oraclejdk8
 after_success:
   - mvn clean test jacoco:report coveralls:report
-
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 
