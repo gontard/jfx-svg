@@ -31,7 +31,7 @@ public class JfxSvgRenderer {
     public JfxSvgRenderer() {
         PaintFactory paintFactory = new PaintFactory();
         factoryRegistry.put("circle", new CircleFactory(paintFactory));
-        factoryRegistry.put("ellipse", new EllipseFactory());
+        factoryRegistry.put("ellipse", new EllipseFactory(paintFactory));
         factoryRegistry.put("image", new ImageFactory());
         factoryRegistry.put("line", new LineFactory());
         factoryRegistry.put("polyline", new PolylineFactory());
