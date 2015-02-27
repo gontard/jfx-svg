@@ -1,11 +1,15 @@
 package org.gontard.jfx.svg.factories;
 
-import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
-public class RectangleFactory implements Factory {
+public class RectangleFactory extends ShapeFactory {
+
+    public RectangleFactory(PaintFactory paintFactory) {
+        super(paintFactory);
+    }
+
     @Override
-    public Node create(XmlElement el) {
+    protected Rectangle createShape(XmlElement el) {
         Rectangle rectangle = new Rectangle();
         rectangle.setX(el.getDouble("x"));
         rectangle.setY(el.getDouble("y"));
@@ -15,4 +19,5 @@ public class RectangleFactory implements Factory {
         rectangle.setArcHeight(el.getDouble("ry"));
         return rectangle;
     }
+
 }
