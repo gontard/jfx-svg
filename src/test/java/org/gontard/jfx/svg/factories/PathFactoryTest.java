@@ -27,7 +27,7 @@ public class PathFactoryTest extends ShapeFactoryTest {
         SVGPath path = createPath(el);
 
         // [Then]
-        assertEquals("wrong conteny", content, path.getContent());
+        assertEquals("wrong content", content, path.getContent());
     }
 
 }

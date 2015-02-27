@@ -3,13 +3,16 @@ package org.gontard.jfx.svg.factories;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import javafx.scene.Node;
 import javafx.scene.shape.Polyline;
 
-public class PolylineFactory implements Factory {
+public class PolylineFactory extends ShapeFactory {
+
+    public PolylineFactory(PaintFactory paintFactory) {
+        super(paintFactory);
+    }
 
     @Override
-    public Node create(XmlElement el) {
+    protected Polyline createShape(XmlElement el) {
         Polyline polyline = new Polyline();
         readPoints(el, polyline.getPoints());
         return polyline;
