@@ -18,7 +18,7 @@ public class PathFactoryTest extends ShapeFactoryTest {
     }
 
     @Test
-    public void should_set_the_start_and_the_end_points() {
+    public void should_set_the_content() {
         // [Given]
         String content = "M 100 100 L 300 100 L 200 300 z";
         XmlElement el = xmlElement().withAttribute("d", content).build();

@@ -22,7 +22,7 @@ public class PolylineFactoryTest extends ShapeFactoryTest {
     }
 
     @Test
-    public void should_set_the_start_and_the_end_points() {
+    public void should_set_the_points() {
         // [Given]
         String content = "100,80 60.31,-20.3 100,40";
         XmlElement el = xmlElement().withAttribute("points", content).build();
