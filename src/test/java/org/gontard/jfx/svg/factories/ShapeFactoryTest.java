@@ -26,6 +26,14 @@ public abstract class ShapeFactoryTest {
     protected Shape createShape(XmlElement el) {
         return createShapeFactory().create(el);
     }
+    
+	protected Color getDefaultFill() {
+		return Color.BLACK;
+	}
+    
+	protected Color getDefaultStroke() {
+		return null;
+	}
 
     @Before
     public void prepareMocks() {
@@ -46,6 +54,18 @@ public abstract class ShapeFactoryTest {
     }
 
     @Test
+    public void should_set_a_null_fill_if_the_attribute_is_not_present() {
+        // [Given]
+        XmlElement el = xmlElement().build();
+
+        // [When]
+        Shape shape = createShape(el);
+
+        // [Then]
+        assertEquals(getDefaultFill(), shape.getFill());
+    }
+    
+    @Test
     public void should_set_the_parsed_stroke() {
         // [Given]
         XmlElement el = xmlElement().withAttribute("stroke", "gray").build();
@@ -55,5 +75,17 @@ public abstract class ShapeFactoryTest {
 
         // [Then]
         assertEquals(Color.GRAY, shape.getStroke());
+    }
+
+    @Test
+    public void should_set_a_null_stroke_if_the_attribute_is_not_present() {
+        // [Given]
+        XmlElement el = xmlElement().build();
+
+        // [When]
+        Shape shape = createShape(el);
+
+        // [Then]
+        assertEquals(getDefaultStroke(), shape.getStroke());
     }
 }

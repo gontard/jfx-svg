@@ -2,6 +2,7 @@ package org.gontard.jfx.svg.factories;
 
 import static org.gontard.jfx.svg.XMLElementBuilder.xmlElement;
 import static org.gontard.jfx.svg.util.JfxAssert.assertDoubleEquals;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 import org.junit.Test;
@@ -16,6 +17,16 @@ public class LineFactoryTest extends ShapeFactoryTest {
     private Line createLine(XmlElement el) {
         return (Line) createShape(el);
     }
+    
+	@Override
+	protected Color getDefaultFill() {
+		return null;
+	}
+    
+	@Override
+	protected Color getDefaultStroke() {
+		return Color.BLACK;
+	}
 
     @Test
     public void should_set_the_start_and_the_end_points() {
