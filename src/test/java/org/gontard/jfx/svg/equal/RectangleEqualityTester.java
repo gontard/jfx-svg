@@ -3,10 +3,10 @@ package org.gontard.jfx.svg.equal;
 import static org.gontard.jfx.svg.util.JfxAssert.assertDoubleEquals;
 import javafx.scene.shape.Rectangle;
 
-class RectangleEqualityTester implements NodeEqualityTester<Rectangle> {
+class RectangleEqualityTester extends ShapeEqualityTester<Rectangle> {
 
     @Override
-    public void assertEqual(Rectangle expected, Rectangle found) {
+    protected void assertShapeEqual(Rectangle expected, Rectangle found) {
         assertDoubleEquals("wrong x", expected.getX(), found.getX());
         assertDoubleEquals("wrong y", expected.getY(), found.getY());
         assertDoubleEquals("wrong w", expected.getWidth(), found.getWidth());

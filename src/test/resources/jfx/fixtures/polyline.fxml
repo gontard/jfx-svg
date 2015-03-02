@@ -3,7 +3,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.shape.*?>
 
-<Polyline strokeType="INSIDE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<Polyline fill="#a12827" stroke="#1c5594" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
   <points>
     <Double fx:value="-20" />
     <Double fx:value="100" />

@@ -3,10 +3,10 @@ package org.gontard.jfx.svg.equal;
 import static org.junit.Assert.assertEquals;
 import javafx.scene.shape.Polyline;
 
-public class PolylineEqualityTester implements NodeEqualityTester<Polyline> {
+public class PolylineEqualityTester extends ShapeEqualityTester<Polyline> {
 
     @Override
-    public void assertEqual(Polyline expected, Polyline found) {
+    protected void assertShapeEqual(Polyline expected, Polyline found) {
         assertEquals("wrong points", expected.getPoints(), found.getPoints());
     }
 

@@ -4,4 +4,4 @@
 <?import javafx.scene.shape.*?>
 
 
-<Circle centerX="60.0" centerY="75.0" radius="50.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<Circle centerX="60.0" centerY="75.0" fill="#a12828" radius="50.0" stroke="#1c5597" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />

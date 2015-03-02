@@ -4,4 +4,4 @@
 <?import javafx.scene.shape.*?>
 
 
-<Line endX="120.0" endY="150.0" startX="20.0" startY="100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<Line endX="120.0" endY="150.0" startX="20.0" startY="100.0" fill="#a12828" stroke="#1c5597" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
