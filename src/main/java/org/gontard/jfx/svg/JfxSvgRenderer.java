@@ -58,20 +58,18 @@ public class JfxSvgRenderer {
                     }
                     break;
                 case XMLStreamConstants.START_ELEMENT:
-                    Node node = null;
-                    Group newGroup = null;
                     String localName = reader.getLocalName();
-                    if ("g".equals(localName)) {
-                        newGroup = new Group();
-                        node = newGroup;
-                    }
-                    else if (!"svg".equals(localName)){
-                        node = getFactory(localName).create(new StaXmlElement(reader));
-                    }
-                    if (node != null) {
-                        if (root == null) {
-                            root = node;
+                    if (!"svg".equals(localName)) {
+                        Node node = null;
+                        Group newGroup = null;
+                        if ("g".equals(localName)) {
+                            newGroup = new Group();
+                            node = newGroup;
                         }
+                        else {
+                            node = getFactory(localName).create(new StaXmlElement(reader));
+                        }
+                        if (root == null) { root = node; }
                         if (!groups.isEmpty()) {
                             groups.peek().getChildren().add(node);
                         }
