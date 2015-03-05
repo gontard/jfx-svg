@@ -101,9 +101,11 @@ public class JfxSvgRenderer {
     }
 
     private Style createStyle(Style style, XmlElement el) {
+        double strokeWidth = el.getDouble("stroke-width", -1);
         return new Style(style,
                 paintFactory.create(el.getString("fill")),
-                paintFactory.create(el.getString("stroke")));
+                paintFactory.create(el.getString("stroke")),
+                strokeWidth == -1 ? null : strokeWidth);
     }
 
     public static class NotSupportedException extends RuntimeException {
@@ -129,15 +131,17 @@ public class JfxSvgRenderer {
         private final Style parent;
         private final Paint fill;
         private final Paint stroke;
+        private final Double strokeWidth;
 
         Style() {
-            this(null, null, null);
+            this(null, null, null, null);
         }
 
-        Style(Style parentStyle, Paint fill, Paint stroke) {
+        Style(Style parentStyle, Paint fill, Paint stroke, Double strokeWidth) {
             this.parent = parentStyle;
             this.fill = fill;
             this.stroke = stroke;
+            this.strokeWidth = strokeWidth;
         }
 
         private <T> Optional<T> resolveProperty(Function<Style, T> getter) {
@@ -156,6 +160,10 @@ public class JfxSvgRenderer {
             return stroke;
         }
 
+        private Double getStrokeWidth() {
+            return strokeWidth;
+        }
+
         private Optional<Paint> fill() {
             return resolveProperty(Style::getFill);
         }
@@ -164,11 +172,17 @@ public class JfxSvgRenderer {
             return resolveProperty(Style::getStroke);
         }
 
+        private Optional<Double> strokeWidth() {
+            return resolveProperty(Style::getStrokeWidth);
+        }
+
         void applyStyle(Node node) {
             if (node instanceof Shape) {
                 Shape shape = (Shape) node;
                 fill().ifPresent(shape::setFill);
                 stroke().ifPresent(shape::setStroke);
+                strokeWidth().ifPresent(System.err::println);
+                strokeWidth().ifPresent(shape::setStrokeWidth);
             }
         }
 
