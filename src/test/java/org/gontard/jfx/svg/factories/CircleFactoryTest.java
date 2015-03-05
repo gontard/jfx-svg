@@ -6,15 +6,10 @@ import javafx.scene.shape.Circle;
 
 import org.junit.Test;
 
-public class CircleFactoryTest extends ShapeFactoryTest {
+public class CircleFactoryTest {
 
-    @Override
-    protected CircleFactory createShapeFactory(PaintFactory paintFactory) {
-        return new CircleFactory(paintFactory);
-    }
-
-    protected Circle createCircle(XmlElement el) {
-        return (Circle) super.createShape(el);
+    private Circle createCircle(XmlElement el) {
+        return new CircleFactory().create(el);
     }
 
     @Test

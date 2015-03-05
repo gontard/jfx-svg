@@ -5,9 +5,13 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -28,20 +32,23 @@ import org.gontard.jfx.svg.factories.XmlElement;
 
 public class JfxSvgRenderer {
     private final Map<String, Factory> factoryRegistry = new HashMap<String, Factory>();
+    private final PaintFactory paintFactory = new PaintFactory();
+
     public JfxSvgRenderer() {
-        PaintFactory paintFactory = new PaintFactory();
-        factoryRegistry.put("circle", new CircleFactory(paintFactory));
-        factoryRegistry.put("ellipse", new EllipseFactory(paintFactory));
+        factoryRegistry.put("circle", new CircleFactory());
+        factoryRegistry.put("ellipse", new EllipseFactory());
         factoryRegistry.put("image", new ImageFactory());
-        factoryRegistry.put("line", new LineFactory(paintFactory));
-        factoryRegistry.put("polyline", new PolylineFactory(paintFactory));
-        factoryRegistry.put("polygon", new PolygonFactory(paintFactory));
-        factoryRegistry.put("path", new PathFactory(paintFactory));
-        factoryRegistry.put("rect", new RectangleFactory(paintFactory));
+        factoryRegistry.put("line", new LineFactory());
+        factoryRegistry.put("polyline", new PolylineFactory());
+        factoryRegistry.put("polygon", new PolygonFactory());
+        factoryRegistry.put("path", new PathFactory());
+        factoryRegistry.put("rect", new RectangleFactory());
     }
 
     private Factory getFactory(String name) {
-        return factoryRegistry.getOrDefault(name, (el) -> { throw new NotSupportedException(name); });
+        return factoryRegistry.getOrDefault(name, (el) -> {
+            throw new NotSupportedException(name);
+        });
     }
 
     public Node load(InputStream svgStream) throws XMLStreamException {
@@ -49,6 +56,7 @@ public class JfxSvgRenderer {
         XMLStreamReader reader = factory.createXMLStreamReader(svgStream);
         Node root = null;
         Deque<Group> groups = new LinkedList<>();
+        Style style = createRooStyle();
         while (reader.hasNext()) {
             int event = reader.next();
             switch (event) {
@@ -56,30 +64,46 @@ public class JfxSvgRenderer {
                     if ("g".equals(reader.getLocalName())) {
                         groups.pop();
                     }
+                    style = style.parent();
                     break;
                 case XMLStreamConstants.START_ELEMENT:
                     String localName = reader.getLocalName();
                     if (!"svg".equals(localName)) {
+                        XmlElement el = new StaXmlElement(reader);
                         Node node = null;
                         Group newGroup = null;
                         if ("g".equals(localName)) {
                             newGroup = new Group();
                             node = newGroup;
+                        } else {
+                            node = getFactory(localName).create(el);
                         }
-                        else {
-                            node = getFactory(localName).create(new StaXmlElement(reader));
+                        if (root == null) {
+                            root = node;
                         }
-                        if (root == null) { root = node; }
                         if (!groups.isEmpty()) {
                             groups.peek().getChildren().add(node);
                         }
                         if (newGroup != null) {
                             groups.push(newGroup);
                         }
+
+                        style = createStyle(style, el);
+                        style.applyStyle(node);
                     }
             }
         }
         return root;
+    }
+
+    private Style createRooStyle() {
+        return new Style();
+    }
+
+    private Style createStyle(Style style, XmlElement el) {
+        return new Style(style,
+                paintFactory.create(el.getString("fill")),
+                paintFactory.create(el.getString("stroke")));
     }
 
     public static class NotSupportedException extends RuntimeException {
@@ -98,6 +122,58 @@ public class JfxSvgRenderer {
         @Override
         public String getString(String name) {
             return reader.getAttributeValue(null, name);
+        }
+    }
+
+    private static class Style {
+        private final Style parent;
+        private final Paint fill;
+        private final Paint stroke;
+
+        Style() {
+            this(null, null, null);
+        }
+
+        Style(Style parentStyle, Paint fill, Paint stroke) {
+            this.parent = parentStyle;
+            this.fill = fill;
+            this.stroke = stroke;
+        }
+
+        private <T> Optional<T> resolveProperty(Function<Style, T> getter) {
+            Optional<T> thisValue = Optional.ofNullable(getter.apply(this));
+            if (!thisValue.isPresent() && parent != null) {
+                thisValue = parent.resolveProperty(getter);
+            }
+            return thisValue;
+        }
+
+        private Paint getFill() {
+            return fill;
+        }
+
+        private Paint getStroke() {
+            return stroke;
+        }
+
+        private Optional<Paint> fill() {
+            return resolveProperty(Style::getFill);
+        }
+
+        private Optional<Paint> stroke() {
+            return resolveProperty(Style::getStroke);
+        }
+
+        void applyStyle(Node node) {
+            if (node instanceof Shape) {
+                Shape shape = (Shape) node;
+                fill().ifPresent(shape::setFill);
+                stroke().ifPresent(shape::setStroke);
+            }
+        }
+
+        Style parent() {
+            return parent;
         }
     }
 

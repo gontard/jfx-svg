@@ -6,11 +6,11 @@
 
 <Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Circle centerX="25.0" centerY="25.0" radius="15.0" />
+      <Circle centerX="25.0" centerY="25.0" radius="15.0" stroke="#a12828" />
       <Group>
          <children>
-            <Rectangle arcHeight="20.0" arcWidth="15.0" height="150.0" width="200.0" x="50.0" y="100.0" />
-            <Line endX="120.0" endY="150.0" startX="20.0" startY="100.0" />
+            <Rectangle arcHeight="20.0" arcWidth="15.0" height="150.0" width="200.0" x="50.0" y="100.0" stroke="#a128a8" />
+            <Line endX="120.0" endY="150.0" startX="20.0" startY="100.0" stroke="#1c5597" />
          </children>
       </Group>
    </children>

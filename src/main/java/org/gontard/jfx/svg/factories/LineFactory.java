@@ -1,16 +1,11 @@
 package org.gontard.jfx.svg.factories;
 
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
 
-public class LineFactory extends ShapeFactory {
-
-    public LineFactory(PaintFactory paintFactory) {
-        super(paintFactory);
-    }
+public class LineFactory implements Factory {
 
     @Override
-    protected Shape createShape(XmlElement el) {
+    public Line create(XmlElement el) {
         Line line = new Line();
         line.setStartX(el.getDouble("x1"));
         line.setStartY(el.getDouble("y1"));

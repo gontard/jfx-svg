@@ -17,9 +17,9 @@ public class PaintFactoryTest {
 
     @Parameters
     public static Iterable<Object[]> data() {
-        return Arrays.asList(new Object[][] { { "blue", Color.BLUE }, { "red", Color.RED },
+        return Arrays.asList(new Object[][] { { "Blue", Color.BLUE }, { "red", Color.RED },
                 { "#808080", Color.GRAY }, { "rgb(0, 0, 0)", Color.BLACK },
-                { "transparent", Color.TRANSPARENT }, { null, null } });
+                { "transparent", Color.TRANSPARENT }, { null, null }, { "None", null } });
     }
 
     private final String serialized;

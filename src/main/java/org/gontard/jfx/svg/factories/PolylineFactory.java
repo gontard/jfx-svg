@@ -5,14 +5,10 @@ import java.util.StringTokenizer;
 
 import javafx.scene.shape.Polyline;
 
-public class PolylineFactory extends ShapeFactory {
-
-    public PolylineFactory(PaintFactory paintFactory) {
-        super(paintFactory);
-    }
+public class PolylineFactory implements Factory {
 
     @Override
-    protected Polyline createShape(XmlElement el) {
+    public Polyline create(XmlElement el) {
         Polyline polyline = new Polyline();
         readPoints(el, polyline.getPoints());
         return polyline;
@@ -31,4 +27,5 @@ public class PolylineFactory extends ShapeFactory {
             points.add(Double.valueOf(coordinates[1]));
         }
     }
+
 }

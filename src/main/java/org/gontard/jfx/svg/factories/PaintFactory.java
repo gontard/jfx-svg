@@ -6,7 +6,7 @@ import javafx.scene.paint.Paint;
 public class PaintFactory {
 
     public Paint create(String serialized) {
-        return serialized != null ? Color.web(serialized) : null;
+        return serialized != null && !"none".equalsIgnoreCase(serialized) ? Color.web(serialized) : null;
     }
 
 }

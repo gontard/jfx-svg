@@ -5,32 +5,16 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 
 import org.junit.Test;
 
 
-public class PolylineFactoryTest extends ShapeFactoryTest {
-
-    @Override
-    protected ShapeFactory createShapeFactory(PaintFactory paintFactory) {
-        return new PolylineFactory(paintFactory);
-    }
+public class PolylineFactoryTest {
 
     private Polyline createPolyline(XmlElement el) {
-        return (Polyline) createShape(el);
+        return new PolylineFactory().create(el);
     }
-    
-	@Override
-	protected Color getDefaultFill() {
-		return null;
-	}
-    
-	@Override
-	protected Color getDefaultStroke() {
-		return Color.BLACK;
-	}
 
     @Test
     public void should_set_the_points() {

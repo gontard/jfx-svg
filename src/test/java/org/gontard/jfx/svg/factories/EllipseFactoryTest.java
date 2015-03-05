@@ -6,15 +6,10 @@ import javafx.scene.shape.Ellipse;
 
 import org.junit.Test;
 
-public class EllipseFactoryTest extends ShapeFactoryTest {
+public class EllipseFactoryTest {
 
-    @Override
-    protected ShapeFactory createShapeFactory(PaintFactory paintFactory) {
-        return new EllipseFactory(paintFactory);
-    }
-
-    protected Ellipse createEllipse(XmlElement el) {
-        return (Ellipse) super.createShape(el);
+    private Ellipse createEllipse(XmlElement el) {
+        return new EllipseFactory().create(el);
     }
 
     @Test

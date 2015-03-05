@@ -2,14 +2,10 @@ package org.gontard.jfx.svg.factories;
 
 import javafx.scene.shape.SVGPath;
 
-public class PathFactory extends ShapeFactory {
-
-    public PathFactory(PaintFactory paintFactory) {
-        super(paintFactory);
-    }
+public class PathFactory implements Factory {
 
     @Override
-    protected SVGPath createShape(XmlElement el) {
+    public SVGPath create(XmlElement el) {
         SVGPath path = new SVGPath();
         path.setContent(el.getString("d"));
         return path;

@@ -9,15 +9,10 @@ import javafx.scene.shape.Polygon;
 
 import org.junit.Test;
 
-public class PolygonFactoryTest extends ShapeFactoryTest {
-
-    @Override
-    protected ShapeFactory createShapeFactory(PaintFactory paintFactory) {
-        return new PolygonFactory(paintFactory);
-    }
+public class PolygonFactoryTest {
 
     private Polygon createPolygon(XmlElement el) {
-        return (Polygon) createShape(el);
+        return new PolygonFactory().create(el);
     }
 
     @Test

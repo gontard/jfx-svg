@@ -1,16 +1,11 @@
 package org.gontard.jfx.svg.factories;
 
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Shape;
 
-public class EllipseFactory extends ShapeFactory {
-
-    public EllipseFactory(PaintFactory paintFactory) {
-        super(paintFactory);
-    }
+public class EllipseFactory implements Factory {
 
     @Override
-    protected Shape createShape(XmlElement el) {
+    public Ellipse create(XmlElement el) {
         Ellipse ellipse = new Ellipse();
         ellipse.setCenterX(el.getDouble("cx"));
         ellipse.setCenterY(el.getDouble("cy"));

@@ -1,16 +1,11 @@
 package org.gontard.jfx.svg.factories;
 
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 
-public class CircleFactory extends ShapeFactory {
-
-    public CircleFactory(PaintFactory paintFactory) {
-        super(paintFactory);
-    }
+public class CircleFactory implements Factory {
 
     @Override
-    protected Shape createShape(XmlElement el) {
+    public Circle create(XmlElement el) {
         Circle circle = new Circle();
         circle.setCenterX(el.getDouble("cx"));
         circle.setCenterY(el.getDouble("cy"));

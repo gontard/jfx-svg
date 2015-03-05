@@ -2,14 +2,10 @@ package org.gontard.jfx.svg.factories;
 
 import javafx.scene.shape.Rectangle;
 
-public class RectangleFactory extends ShapeFactory {
-
-    public RectangleFactory(PaintFactory paintFactory) {
-        super(paintFactory);
-    }
+public class RectangleFactory implements Factory {
 
     @Override
-    protected Rectangle createShape(XmlElement el) {
+    public Rectangle create(XmlElement el) {
         Rectangle rectangle = new Rectangle();
         rectangle.setX(el.getDouble("x"));
         rectangle.setY(el.getDouble("y"));

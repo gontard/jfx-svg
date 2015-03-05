@@ -6,15 +6,10 @@ import javafx.scene.shape.Rectangle;
 
 import org.junit.Test;
 
-public class RectangleFactoryTest extends ShapeFactoryTest {
+public class RectangleFactoryTest {
 
-    @Override
-    protected ShapeFactory createShapeFactory(PaintFactory paintFactory) {
-        return new RectangleFactory(paintFactory);
-    }
-
-    protected Rectangle createRectangle(XmlElement el) {
-        return (Rectangle) super.createShape(el);
+    private Rectangle createRectangle(XmlElement el) {
+        return new RectangleFactory().create(el);
     }
 
     @Test

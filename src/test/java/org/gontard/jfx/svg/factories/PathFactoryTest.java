@@ -6,15 +6,10 @@ import javafx.scene.shape.SVGPath;
 
 import org.junit.Test;
 
-public class PathFactoryTest extends ShapeFactoryTest {
-
-    @Override
-    protected ShapeFactory createShapeFactory(PaintFactory paintFactory) {
-        return new PathFactory(paintFactory);
-    }
+public class PathFactoryTest {
 
     private SVGPath createPath(XmlElement el) {
-        return (SVGPath) createShape(el);
+        return new PathFactory().create(el);
     }
 
     @Test
