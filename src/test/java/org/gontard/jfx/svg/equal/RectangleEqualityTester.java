@@ -2,8 +2,13 @@ package org.gontard.jfx.svg.equal;
 
 import static org.gontard.jfx.svg.util.JfxAssert.assertDoubleEquals;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Transform;
 
 class RectangleEqualityTester extends ShapeEqualityTester<Rectangle> {
+
+    public RectangleEqualityTester(EqualityTester<Transform> transformTester) {
+        super(transformTester);
+    }
 
     @Override
     protected void assertShapeEqual(Rectangle expected, Rectangle found) {

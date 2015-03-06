@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
-import org.gontard.jfx.svg.equal.MainEqualityTester;
+import org.gontard.jfx.svg.equal.MainNodeEqualityTester;
 import org.gontard.jfx.svg.util.JavaFXThreadingRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class JfxSvgRendererTest {
 
     private final Path testedSvg;
     private final Path expectedFxml;
-    private final MainEqualityTester mainEqualityTester = new MainEqualityTester();
+    private final MainNodeEqualityTester mainNodeEqualityTester = new MainNodeEqualityTester();
 
     @Rule
     public JavaFXThreadingRule runInJfxThread = new JavaFXThreadingRule();
@@ -59,7 +59,7 @@ public class JfxSvgRendererTest {
         Node svgNode = loadSvg();
 
         // [Then]
-        mainEqualityTester.assertEqual(fxmlNode, svgNode);
+        mainNodeEqualityTester.assertEqual(fxmlNode, svgNode);
     }
 
     private Node loadSvg() throws Exception {

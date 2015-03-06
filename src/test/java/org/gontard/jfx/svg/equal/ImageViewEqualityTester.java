@@ -4,11 +4,16 @@ import static org.gontard.jfx.svg.util.JfxAssert.assertDoubleEquals;
 import static org.gontard.jfx.svg.util.JfxAssert.assertImageEquals;
 import static org.junit.Assert.assertSame;
 import javafx.scene.image.ImageView;
+import javafx.scene.transform.Transform;
 
-public class ImageViewEqualityTester implements NodeEqualityTester<ImageView> {
+public class ImageViewEqualityTester extends NodeEqualityTester<ImageView> {
+
+    public ImageViewEqualityTester(EqualityTester<Transform> transformTester) {
+        super(transformTester);
+    }
 
     @Override
-    public void assertEqual(ImageView expected, ImageView found) {
+    protected void assertNodeEqual(ImageView expected, ImageView found) {
         assertSame("wrong preserve ratio",
                 expected.preserveRatioProperty().get(),
                 found.preserveRatioProperty().get());
@@ -17,5 +22,7 @@ public class ImageViewEqualityTester implements NodeEqualityTester<ImageView> {
         assertDoubleEquals("wrong fit width", expected.getFitWidth(), found.getFitWidth());
         assertDoubleEquals("wrong fit height", expected.getFitHeight(), found.getFitHeight());
         assertImageEquals(expected.getImage(), found.getImage());
+
     }
+
 }

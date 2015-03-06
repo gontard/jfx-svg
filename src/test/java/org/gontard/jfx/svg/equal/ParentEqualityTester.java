@@ -7,16 +7,18 @@ import java.util.Iterator;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.transform.Transform;
 
-class ParentEqualityTester implements NodeEqualityTester<Parent> {
-    private final NodeEqualityTester<Node> childTester;
+class ParentEqualityTester extends NodeEqualityTester<Parent> {
+    private final EqualityTester<Node> childTester;
 
-    ParentEqualityTester(NodeEqualityTester<Node> childTester) {
+    ParentEqualityTester(EqualityTester<Node> childTester, EqualityTester<Transform> transformTester) {
+        super(transformTester);
         this.childTester = childTester;
     }
 
     @Override
-    public void assertEqual(Parent expected, Parent found) {
+    protected void assertNodeEqual(Parent expected, Parent found) {
         ObservableList<Node> children1 = expected.getChildrenUnmodifiable();
         ObservableList<Node> children2 = found.getChildrenUnmodifiable();
         assertSame("different amount of child",
@@ -30,4 +32,5 @@ class ParentEqualityTester implements NodeEqualityTester<Parent> {
             childTester.assertEqual(child1, child2);
         }
     }
+
 }

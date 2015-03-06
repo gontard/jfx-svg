@@ -2,8 +2,13 @@ package org.gontard.jfx.svg.equal;
 
 import static org.gontard.jfx.svg.util.JfxAssert.assertDoubleEquals;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.transform.Transform;
 
 public class EllipseEqualityTester extends ShapeEqualityTester<Ellipse> {
+
+    public EllipseEqualityTester(EqualityTester<Transform> transformTester) {
+        super(transformTester);
+    }
 
     @Override
     protected void assertShapeEqual(Ellipse expected, Ellipse found) {
