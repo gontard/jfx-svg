@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="230">
+    <g transform="matrix(1,2,3,4,5,6)">
+        <!-- New coordinate system (thick blue line) x1 = 10 | x2 = 30 y1 = 20 
+			| y2 = 40 -->
+        <line x1="10" y1="20" x2="30" y2="40" stroke-width="10" stroke="blue"/>
+    </g>
+    <!-- Previous coordinate system (thin white line) x1 = 1 * 10 + 3 * 20 + 
+		5 = 75 | x2 = 1 * 30 + 3 * 40 + 5 = 155 y1 = 2 * 10 + 4 * 20 + 6 = 106 | 
+		y2 = 2 * 30 + 4 * 40 + 6 = 226 -->
+    <line x1="75" y1="106" x2="155" y2="226" stroke-width="1" stroke="white"/>
+</svg>

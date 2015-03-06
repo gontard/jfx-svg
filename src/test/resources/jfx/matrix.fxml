@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+            <children>
+                <Line startX="10" startY="20" endX="30" endY="40" stroke="blue" strokeWidth="10"/>
+            </children>
+            <transforms>
+                <javafx.scene.transform.Affine mxx="1" myx="2" mxy="3" myy="4" tx="5" ty="6"/>
+            </transforms>
+        </Group>
+        <Line startX="75" startY="106" endX="155" endY="226" stroke="white" strokeWidth="1"/>
+    </children>
+</Group>
