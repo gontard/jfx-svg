@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
-
-
-<Line endX="120.0" endY="150.0" startX="20.0" startY="100.0" fill="#a12828" stroke="#1c5597" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Line xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" endX="120.0" endY="150.0" startX="20.0" startY="100.0" fill="#a12828" stroke="#1c5597"/>
+    </children>
+</Group>

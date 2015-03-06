@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
-
-<ImageView fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" x="15.0" y="22.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <image>
-      <Image url="http://www.w3.org/Icons/32x32/info.gif" />
-   </image>
-</ImageView>
+<?import javafx.scene.image.*?>
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ImageView xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" x="15.0" y="22.0">
+            <image>
+                <Image url="http://www.w3.org/Icons/32x32/info.gif"/>
+            </image>
+        </ImageView>
+    </children>
+</Group>

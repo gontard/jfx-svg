@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
-
-
-<Ellipse centerX="45.0" centerY="60.0" radiusX="50.0" radiusY="25.0" fill="#a12828" stroke="#1c5597" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Ellipse xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" centerX="45.0" centerY="60.0" radiusX="50.0" radiusY="25.0" fill="#a12828" stroke="#1c5597"/>
+    </children>
+</Group>

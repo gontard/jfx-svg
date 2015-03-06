@@ -59,41 +59,45 @@ public class JfxSvgRenderer {
         Style style = createRooStyle();
         while (reader.hasNext()) {
             int event = reader.next();
+            String localName;
             switch (event) {
                 case XMLStreamConstants.END_ELEMENT:
-                    if ("g".equals(reader.getLocalName())) {
+                    localName = reader.getLocalName();
+                    if (isGroup(localName)) {
                         groups.pop();
                     }
                     style = style.parent();
                     break;
                 case XMLStreamConstants.START_ELEMENT:
-                    String localName = reader.getLocalName();
-                    if (!"svg".equals(localName)) {
-                        XmlElement el = new StaXmlElement(reader);
-                        Node node = null;
-                        Group newGroup = null;
-                        if ("g".equals(localName)) {
-                            newGroup = new Group();
-                            node = newGroup;
-                        } else {
-                            node = getFactory(localName).create(el);
-                        }
-                        if (root == null) {
-                            root = node;
-                        }
-                        if (!groups.isEmpty()) {
-                            groups.peek().getChildren().add(node);
-                        }
-                        if (newGroup != null) {
-                            groups.push(newGroup);
-                        }
-
-                        style = createStyle(style, el);
-                        style.applyStyle(node);
+                    localName = reader.getLocalName();
+                    XmlElement el = new StaXmlElement(reader);
+                    Node node = null;
+                    Group newGroup = null;
+                    if (isGroup(localName)) {
+                        newGroup = new Group();
+                        node = newGroup;
+                    } else {
+                        node = getFactory(localName).create(el);
                     }
+                    if (root == null) {
+                        root = node;
+                    }
+                    if (!groups.isEmpty()) {
+                        groups.peek().getChildren().add(node);
+                    }
+                    if (newGroup != null) {
+                        groups.push(newGroup);
+                    }
+
+                    style = createStyle(style, el);
+                    style.applyStyle(node);
             }
         }
         return root;
+    }
+
+    private boolean isGroup(String localName) {
+        return "g".equals(localName) || "svg".equals(localName);
     }
 
     private Style createRooStyle() {
@@ -181,7 +185,6 @@ public class JfxSvgRenderer {
                 Shape shape = (Shape) node;
                 fill().ifPresent(shape::setFill);
                 stroke().ifPresent(shape::setStroke);
-                strokeWidth().ifPresent(System.err::println);
                 strokeWidth().ifPresent(shape::setStrokeWidth);
             }
         }

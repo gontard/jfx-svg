@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
-
-
-<Rectangle arcHeight="20.0" arcWidth="15.0" height="150.0" width="200.0" x="50.0" y="100.0" fill="#a12827" stroke="#1c5594" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Rectangle xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" arcHeight="20.0" arcWidth="15.0" height="150.0" width="200.0" x="50.0" y="100.0" fill="#a12827" stroke="#1c5594"/>
+    </children>
+</Group>
